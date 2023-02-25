@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class TaskTag(models.Model):
-    title = models.CharField(256)
+    title = models.CharField(max_length=256)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
 
 
