@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Time tracker</title>
+    <title>Task tracker</title>
 </head>
 <body>
-    <h1><a href="{% url 'main' %}">Time tracker</a></h1>
+    <h1><a href="{% url 'main' %}">Task tracker</a></h1>
     <nav>
         {% if user.is_anonymous %}
             <div style="text-align: right">
@@ -12,7 +12,8 @@
                 <a href="{% url 'auth' %}">Авторизация</a>
             </div>
         {% else %}
-            <a href="{% url 'main' %}">Слоты</a>
+            <a href="{% url 'main' %}">Задачи</a>
+            <a href="{% url 'tasks_add' %}">Создать задачу</a>
             <div style="text-align: right">
                 {% if not user.is_anonymous %}
                     Вы авторизованы как <b>{{ user.username }}</b>

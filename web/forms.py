@@ -1,12 +1,13 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
+from web.models import Task
 
 User = get_user_model()
 
 
 class RegistrationForm(forms.ModelForm):
-    password2 = forms.CharField(widget=forms.PasswordInput())
+    password2 = forms.CharField(widget = forms.PasswordInput())
 
     def clean(self):
         cleaned_data = super().clean()
@@ -21,4 +22,14 @@ class RegistrationForm(forms.ModelForm):
 
 class AuthForm(forms.Form):
     username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget = forms.PasswordInput())
+
+
+class TaskForm(forms.ModelForm):
+
+    def save(self, commit=True):
+        self.instance.user = self.initial['user']
+        return super().save(commit)
+    class Meta:
+        model = Task
+        fields = ('title', 'description')
