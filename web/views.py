@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model, authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from web.forms import RegistrationForm, AuthForm, TaskForm, TaskTagForm
@@ -54,9 +54,7 @@ def logout_view(request):
 
 
 def task_edit_view(request, id = None):
-    task = None
-    if id is not None:
-        task = Task.objects.get(id = id)
+    task = get_object_or_404(Task, id=id) if id is not None else None
     form = TaskForm(instance = task)
     if request.method == 'POST':
         form = TaskForm(data = request.POST, files = request.FILES, initial = {"user": request.user})
@@ -64,6 +62,12 @@ def task_edit_view(request, id = None):
             form.save()
             return redirect("main")
     return render(request, "web/task_form.html", {"form": form})
+
+
+def tasks_delete_view(request, id):
+    task = get_object_or_404(Task, id=id)
+    task.delete()
+    return redirect('main')
 
 
 def tags_view(request):
@@ -78,6 +82,6 @@ def tags_view(request):
 
 
 def tags_delete_view(request, id):
-    tag = TaskTag.objects.get(id = id)
+    tag = get_object_or_404(TaskTag, id=id)
     tag.delete()
     return redirect('tags')
