@@ -1,9 +1,21 @@
 {% extends 'web/base.html' %}
 {% block content %}
 
-{% if not user.is_anonymous %}
-<p>Вы авторизованы как <b>{{ user.username }}</b></p>
-{% endif %}
+    {% if not user.is_anonymous %}
+    <p>Вы авторизованы как <b>{{ user.username }}</b></p>
+    {% endif %}
 
-<a href="{% url 'tasks_add' %}">Создать задачу</a>
+    <a href="{% url 'tasks_add' %}">Создать задачу</a>
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <b>{{ task.title }} </b>
+            {{ task.description }}
+        </li>
+
+        {% endfor %}
+    </ul>
+
+
 {% endblock %}

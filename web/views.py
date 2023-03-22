@@ -3,12 +3,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from web.forms import RegistrationForm, AuthForm, TaskForm
+from web.models import Task
 
 User = get_user_model()
 
 
 def main_view(request):
-    return render(request, "web/main.html")
+    tasks = Task.objects.all()
+    return render(request, "web/main.html", {
+        'tasks' : tasks
+    })
 
 
 def registration_view(request):
