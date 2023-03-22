@@ -1,9 +1,27 @@
 {% extends 'web/base.html' %}
 {% block content %}
+    <b>Добавить задачу</b>
+    <form action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Сохранить</button>
+    </form>
+    {% if not user.is_anonymous %}
+    <p>Вы авторизованы как <b>{{ user.username }}</b></p>
+    {% endif %}
 
-{% if not user.is_anonymous %}
-<p>Вы авторизованы как <b>{{ user.username }}</b></p>
-{% endif %}
+    <a href="{% url 'tasks_add' %}">Создать задачу</a>
 
-<a href="{% url 'tasks_add' %}">Создать задачу</a>
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <b>{{ task.title }} </b>
+            {{ task.description }}
+            <a href="{% url 'tasks_edit' task.id %}">Изменить</a>
+        </li>
+
+        {% endfor %}
+    </ul>
+
+
 {% endblock %}

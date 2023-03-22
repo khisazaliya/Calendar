@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from web.models import Task
+from web.models import Task, TaskTag
 
 User = get_user_model()
 
@@ -27,9 +27,21 @@ class AuthForm(forms.Form):
 
 class TaskForm(forms.ModelForm):
 
-    def save(self, commit=True):
+    def save(self, commit = True):
         self.instance.user = self.initial['user']
         return super().save(commit)
+
     class Meta:
         model = Task
-        fields = ('title', 'description')
+        fields = ('title', 'description', "image", "tags")
+
+
+class TaskTagForm(forms.ModelForm):
+
+    def save(self, commit = True):
+        self.instance.user = self.initial['user']
+        return super().save(commit)
+
+    class Meta:
+        model = TaskTag
+        fields = ('title', )
