@@ -1,11 +1,9 @@
 {% extends 'web/base.html' %}
 {% block content %}
 
-<body>
 {% if not user.is_anonymous %}
 <p>Вы авторизованы как <b>{{ user.username }}</b></p>
 {% endif %}
 
-
-</body>
+<a href="{% url 'tasks_add' %}">Создать задачу</a>
 {% endblock %}
