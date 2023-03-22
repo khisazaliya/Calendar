@@ -11,7 +11,8 @@ User = get_user_model()
 def main_view(request):
     tasks = Task.objects.all()
     return render(request, "web/main.html", {
-        'tasks' : tasks
+        'tasks': tasks,
+        'form': TaskForm
     })
 
 
@@ -52,13 +53,13 @@ def logout_view(request):
     return redirect("main")
 
 
-def task_edit_view(request, id=None):
+def task_edit_view(request, id = None):
     task = None
     if id is not None:
-        task = Task.objects.get(id=id)
-    form = TaskForm(instance=task)
+        task = Task.objects.get(id = id)
+    form = TaskForm(instance = task)
     if request.method == 'POST':
-        form = TaskForm(data=request.POST, files=request.FILES, initial={"user": request.user})
+        form = TaskForm(data = request.POST, files = request.FILES, initial = {"user": request.user})
         if form.is_valid():
             form.save()
             return redirect("main")
@@ -69,7 +70,7 @@ def tags_view(request):
     tags = TaskTag.objects.all()
     form = TaskTagForm()
     if request.method == 'POST':
-        form = TaskTagForm(data = request.POST,  initial = {"user": request.user})
+        form = TaskTagForm(data = request.POST, initial = {"user": request.user})
         if form.is_valid():
             form.save()
             return redirect("tags")
@@ -77,6 +78,6 @@ def tags_view(request):
 
 
 def tags_delete_view(request, id):
-    tag = TaskTag.objects.get(id=id)
+    tag = TaskTag.objects.get(id = id)
     tag.delete()
     return redirect('tags')

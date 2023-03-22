@@ -1,6 +1,11 @@
 {% extends 'web/base.html' %}
 {% block content %}
-
+    <b>Добавить задачу</b>
+    <form action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Сохранить</button>
+    </form>
     {% if not user.is_anonymous %}
     <p>Вы авторизованы как <b>{{ user.username }}</b></p>
     {% endif %}
