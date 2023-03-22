@@ -14,6 +14,7 @@
         {% else %}
             <a href="{% url 'main' %}">Задачи</a>
             <a href="{% url 'tasks_add' %}">Создать задачу</a>
+            <a href="{% url 'tags' %}">Теги</a>
             <div style="text-align: right">
                 {% if not user.is_anonymous %}
                     Вы авторизованы как <b>{{ user.username }}</b>
