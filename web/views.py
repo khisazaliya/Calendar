@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
@@ -8,8 +9,9 @@ from web.models import Task, TaskTag
 User = get_user_model()
 
 
+@login_required
 def main_view(request):
-    tasks = Task.objects.all().order_by('title')
+    tasks = Task.objects.filter(user=request.user).order_by('title')
     return render(request, "web/main.html", {
         'tasks': tasks,
         'form': TaskForm
@@ -53,6 +55,7 @@ def logout_view(request):
     return redirect("main")
 
 
+@login_required
 def task_edit_view(request, id = None):
     task = get_object_or_404(Task, id=id) if id is not None else None
     form = TaskForm(instance = task)
@@ -63,13 +66,13 @@ def task_edit_view(request, id = None):
             return redirect("main")
     return render(request, "web/task_form.html", {"form": form})
 
-
+@login_required
 def tasks_delete_view(request, id):
-    task = get_object_or_404(Task, id=id)
+    task = get_object_or_404(Task, user=request.user, id=id)
     task.delete()
     return redirect('main')
 
-
+@login_required
 def tags_view(request):
     tags = TaskTag.objects.all()
     form = TaskTagForm()
@@ -80,8 +83,8 @@ def tags_view(request):
             return redirect("tags")
     return render(request, "web/tags.html", {"tags": tags, "form": form})
 
-
+@login_required
 def tags_delete_view(request, id):
-    tag = get_object_or_404(TaskTag, id=id)
+    tag = get_object_or_404(TaskTag, user=request.user, id=id)
     tag.delete()
     return redirect('tags')
