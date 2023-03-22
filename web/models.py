@@ -14,4 +14,5 @@ class Task(models.Model):
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = models.ManyToManyField(TaskTag)
+    image = models.ImageField(upload_to='tasks/', null=True, blank=True)
 
