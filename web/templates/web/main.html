@@ -12,6 +12,7 @@
         <li>
             <b>{{ task.title }} </b>
             {{ task.description }}
+            <a href="{% url 'tasks_edit' task.id %}">Изменить</a>
         </li>
 
         {% endfor %}

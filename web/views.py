@@ -52,8 +52,11 @@ def logout_view(request):
     return redirect("main")
 
 
-def task_add_view(request):
-    form = TaskForm()
+def task_edit_view(request, id=None):
+    task = None
+    if id is not None:
+        task = Task.objects.get(id=id)
+    form = TaskForm(instance=task)
     if request.method == 'POST':
         form = TaskForm(data=request.POST, initial={"user": request.user})
         if form.is_valid():
