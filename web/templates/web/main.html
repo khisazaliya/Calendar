@@ -1,7 +1,7 @@
 {% extends 'web/base.html' %}
 {% block content %}
     <b>Добавить задачу</b>
-    <form action="">
+    <form action="{% url 'tasks_add' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button>Сохранить</button>

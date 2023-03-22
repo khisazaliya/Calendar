@@ -9,7 +9,7 @@ User = get_user_model()
 
 
 def main_view(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.all().order_by('title')
     return render(request, "web/main.html", {
         'tasks': tasks,
         'form': TaskForm
