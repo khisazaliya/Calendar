@@ -10,7 +10,7 @@ from web.models import Task, User, TaskTag
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        user = User.objects.first()
+        user = User.objects.last()
         tags = TaskTag.objects.filter(user = user)
 
         tasks = []

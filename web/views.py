@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
@@ -12,8 +13,12 @@ User = get_user_model()
 @login_required
 def main_view(request):
     tasks = Task.objects.filter(user=request.user).order_by('title')
+
+    page_number = request.GET.get("page", 1)
+    paginator = Paginator(tasks[:30], per_page = 10)
+
     return render(request, "web/main.html", {
-        'tasks': tasks,
+        'tasks': paginator.get_page(page_number),
         'form': TaskForm
     })
 
