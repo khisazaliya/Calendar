@@ -4,14 +4,16 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.views.decorators.cache import cache_page
 
 from web.forms import RegistrationForm, AuthForm, TaskForm, TaskTagForm, TaskFilterForm, ImportForm
 from web.models import Task, TaskTag
-from web.services import filter_tasks, export_tasks_csv, import_tasks_from_csv
+from web.services import filter_tasks, export_tasks_csv, import_tasks_from_csv, get_stat
 
 User = get_user_model()
 
 
+@cache_page(10)
 @login_required
 def main_view(request):
     tasks = Task.objects.filter(user = request.user).order_by('title')
@@ -120,6 +122,7 @@ def tags_delete_view(request, id):
     tag.delete()
     return redirect('tags')
 
+
 @login_required
 def analytics_view(request):
     overall_stat = Task.objects.aggregate(
@@ -136,10 +139,16 @@ def analytics_view(request):
 @login_required
 def import_view(request):
     if request.method == 'POST':
-        form = ImportForm(files=request.FILES)
+        form = ImportForm(files = request.FILES)
         if form.is_valid():
             import_tasks_from_csv(form.cleaned_data['file'], request.user.id)
             return redirect("main")
     return render(request, "web/import.html", {
         "form": ImportForm()
     })
+
+
+
+@login_required
+def stat_view(request):
+    return render(request, "web/stat.html", {"results": get_stat()})

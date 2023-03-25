@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,7 +46,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'tracker.debug.SqlPrintingMiddleware'
+    'tracker.middlewares.SqlPrintingMiddleware',
+    'tracker.middlewares.StatMiddleware'
 ]
 
 ROOT_URLCONF = 'tracker.urls'
@@ -80,6 +81,22 @@ DATABASES = {
         'PASSWORD': "database",
         'HOST': "localhost",
         'PORT': 5432
+    }
+}
+
+REDIS_HOST = os.environ.get("REDIS_HOST", "127.0.0.1")
+REDIS_DB = os.environ.get("REDIS_DB", 0)
+REDIS_PORT = 6379
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100}
+            # "PASSWORD": "123",
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 import csv
 
+from tracker.redis import get_redis_client
 from web.models import Task, TaskTag
 
 
@@ -47,3 +48,12 @@ def import_tasks_from_csv(file, user_id):
                 Task.tags.through(task_id = task.id, tasktag_id = tag_id)
             )
     Task.tags.through.objects.bulk_create(task_tags)
+
+
+def get_stat():
+    redis = get_redis_client()
+    keys = redis.keys("stat_*")
+    return [
+        (key.decode().replace("stat_", ""), redis.get(key).decode())
+        for key in keys
+    ]
