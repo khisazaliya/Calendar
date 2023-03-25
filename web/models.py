@@ -11,6 +11,10 @@ class TaskTag(models.Model):
     def __str__(self):
         return self.title
 
+class TaskQuerySet(models.QuerySet):
+    def annotate_description(self):
+        return self.annotate(description= "description")
+
 
 class Task(models.Model):
     title = models.CharField(max_length=256, verbose_name = 'Название')
