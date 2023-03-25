@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
-from web.forms import RegistrationForm, AuthForm, TaskForm, TaskTagForm
+from web.forms import RegistrationForm, AuthForm, TaskForm, TaskTagForm, TaskFilterForm
 from web.models import Task, TaskTag
 
 User = get_user_model()
@@ -14,12 +14,21 @@ User = get_user_model()
 def main_view(request):
     tasks = Task.objects.filter(user=request.user).order_by('title')
 
+    filter_form = TaskFilterForm(request.GET)
+    filter_form.is_valid()
+    filters = filter_form.cleaned_data
+    if filters['search']:
+        tasks = tasks.filter(title__icontains=filters['search'])
+
+    total_count = tasks.count()
+
     page_number = request.GET.get("page", 1)
     paginator = Paginator(tasks[:30], per_page = 10)
 
     return render(request, "web/main.html", {
         'tasks': paginator.get_page(page_number),
-        'form': TaskForm
+        'form': TaskForm,
+        'filter_form': filter_form
     })
 
 

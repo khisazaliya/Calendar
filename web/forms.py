@@ -45,3 +45,8 @@ class TaskTagForm(forms.ModelForm):
     class Meta:
         model = TaskTag
         fields = ('title', )
+
+
+class TaskFilterForm(forms.Form):
+    search = forms.CharField(label='', widget=forms.TextInput(attrs={"placeholder": "Поиск"}), required=False)
+    description = forms.TextInput()

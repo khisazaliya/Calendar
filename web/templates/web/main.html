@@ -11,7 +11,19 @@
     {% endif %}
 
     <a href="{% url 'tasks_add' %}">Создать задачу</a>
+  <hr>
+    <form action="">
+        <b>Фильтры:</b><br>
 
+        {% for field in filter_form %}
+            {{ field.label }}
+            {{ field }}
+        {% endfor %}
+
+        <button>Найти</button>
+
+        <a href="?">Показать всё</a>
+    </form>
     <ul>
         {% for task in tasks %}
         <li>
@@ -24,6 +36,7 @@
         {% endfor %}
     </ul>
 
+Всего {{ total_count }} записей {{ tasks|length }} на этой странице.
  <nav>
         {% if tasks.has_previous %}
             <a href="?page=1">в начало</a>
