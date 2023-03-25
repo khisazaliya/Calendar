@@ -7,6 +7,7 @@ from django.http import HttpResponse
 
 from web.forms import RegistrationForm, AuthForm, TaskForm, TaskTagForm, TaskFilterForm
 from web.models import Task, TaskTag
+from web.services import filter_tasks, export_tasks_csv
 
 User = get_user_model()
 
@@ -17,9 +18,7 @@ def main_view(request):
 
     filter_form = TaskFilterForm(request.GET)
     filter_form.is_valid()
-    filters = filter_form.cleaned_data
-    if filters['search']:
-        tasks = tasks.filter(title__icontains = filters['search'])
+    tasks = filter_tasks(tasks, filter_form.cleaned_data)
 
     total_count = tasks.count()
     tasks = (
@@ -31,6 +30,13 @@ def main_view(request):
 
     page_number = request.GET.get("page", 1)
     paginator = Paginator(tasks, per_page = 10)
+
+    if request.GET.get("export") == 'csv':
+        response = HttpResponse(
+            content_type = 'text/csv',
+            headers = {"Content-Disposition": "attachment; filename=timeslots.csv"}
+        )
+        return export_tasks_csv(tasks, response)
 
     return render(request, "web/main.html", {
         'tasks': paginator.get_page(page_number),
