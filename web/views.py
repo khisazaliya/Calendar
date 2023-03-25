@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
@@ -12,18 +13,20 @@ User = get_user_model()
 
 @login_required
 def main_view(request):
-    tasks = Task.objects.filter(user=request.user).order_by('title')
+    tasks = Task.objects.filter(user = request.user).order_by('title')
 
     filter_form = TaskFilterForm(request.GET)
     filter_form.is_valid()
     filters = filter_form.cleaned_data
     if filters['search']:
-        tasks = tasks.filter(title__icontains=filters['search'])
+        tasks = tasks.filter(title__icontains = filters['search'])
 
     total_count = tasks.count()
     tasks = (
         tasks
         .prefetch_related("tags")
+        .select_related("user")
+        .annotate(tags_count = Count("tags"))
     )
 
     page_number = request.GET.get("page", 1)
@@ -32,7 +35,8 @@ def main_view(request):
     return render(request, "web/main.html", {
         'tasks': paginator.get_page(page_number),
         'form': TaskForm,
-        'filter_form': filter_form
+        'filter_form': filter_form,
+        'total_count': total_count
     })
 
 
@@ -75,7 +79,7 @@ def logout_view(request):
 
 @login_required
 def task_edit_view(request, id = None):
-    task = get_object_or_404(Task, id=id) if id is not None else None
+    task = get_object_or_404(Task, id = id) if id is not None else None
     form = TaskForm(instance = task)
     if request.method == 'POST':
         form = TaskForm(data = request.POST, files = request.FILES, initial = {"user": request.user})
@@ -84,11 +88,13 @@ def task_edit_view(request, id = None):
             return redirect("main")
     return render(request, "web/task_form.html", {"form": form})
 
+
 @login_required
 def tasks_delete_view(request, id):
-    task = get_object_or_404(Task, user=request.user, id=id)
+    task = get_object_or_404(Task, user = request.user, id = id)
     task.delete()
     return redirect('main')
+
 
 @login_required
 def tags_view(request):
@@ -101,8 +107,21 @@ def tags_view(request):
             return redirect("tags")
     return render(request, "web/tags.html", {"tags": tags, "form": form})
 
+
 @login_required
 def tags_delete_view(request, id):
-    tag = get_object_or_404(TaskTag, user=request.user, id=id)
+    tag = get_object_or_404(TaskTag, user = request.user, id = id)
     tag.delete()
     return redirect('tags')
+
+
+def analytics_view(request):
+    overall_stat = Task.objects.aggregate(
+        count = Count("id"),
+    )
+
+    return render(request, "web/analytics.html", {
+        "overall_stat": overall_stat,
+    })
+
+    return render(request, "web/analytics.html")
