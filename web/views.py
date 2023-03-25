@@ -5,9 +5,9 @@ from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
-from web.forms import RegistrationForm, AuthForm, TaskForm, TaskTagForm, TaskFilterForm
+from web.forms import RegistrationForm, AuthForm, TaskForm, TaskTagForm, TaskFilterForm, ImportForm
 from web.models import Task, TaskTag
-from web.services import filter_tasks, export_tasks_csv
+from web.services import filter_tasks, export_tasks_csv, import_tasks_from_csv
 
 User = get_user_model()
 
@@ -120,7 +120,7 @@ def tags_delete_view(request, id):
     tag.delete()
     return redirect('tags')
 
-
+@login_required
 def analytics_view(request):
     overall_stat = Task.objects.aggregate(
         count = Count("id"),
@@ -131,3 +131,15 @@ def analytics_view(request):
     })
 
     return render(request, "web/analytics.html")
+
+
+@login_required
+def import_view(request):
+    if request.method == 'POST':
+        form = ImportForm(files=request.FILES)
+        if form.is_valid():
+            import_tasks_from_csv(form.cleaned_data['file'], request.user.id)
+            return redirect("main")
+    return render(request, "web/import.html", {
+        "form": ImportForm()
+    })

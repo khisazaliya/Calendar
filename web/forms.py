@@ -50,3 +50,7 @@ class TaskTagForm(forms.ModelForm):
 class TaskFilterForm(forms.Form):
     search = forms.CharField(label='', widget=forms.TextInput(attrs={"placeholder": "Поиск"}), required=False)
     description = forms.TextInput()
+
+
+class ImportForm(forms.Form):
+    file = forms.FileField()
