@@ -21,9 +21,13 @@ def main_view(request):
         tasks = tasks.filter(title__icontains=filters['search'])
 
     total_count = tasks.count()
+    tasks = (
+        tasks
+        .prefetch_related("tags")
+    )
 
     page_number = request.GET.get("page", 1)
-    paginator = Paginator(tasks[:30], per_page = 10)
+    paginator = Paginator(tasks, per_page = 10)
 
     return render(request, "web/main.html", {
         'tasks': paginator.get_page(page_number),
