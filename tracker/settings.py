@@ -158,3 +158,10 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated"
     ]
 }
+
+
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static/'),
+]

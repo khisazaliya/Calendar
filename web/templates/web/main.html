@@ -33,7 +33,7 @@
                         [{{ task.tags_count }}: {% for tag in task.tags.all %} {{ tag.title }} {% endfor %}]
                     {% endif %}
 
-                   {{ timeslot.user.username }}
+                   {{ task.user.username }}
 
               </small>
             <b>{{ task.title }} </b>
