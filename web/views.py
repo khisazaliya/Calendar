@@ -148,7 +148,6 @@ def import_view(request):
     })
 
 
-
 @login_required
 def stat_view(request):
     return render(request, "web/stat.html", {"results": get_stat()})
