@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     "web",
-    "api"
+    "api",
+    "crispy_forms"
 ]
 
 MIDDLEWARE = [
@@ -148,7 +149,6 @@ MEDIA_URL = "media/"
 LOGIN_URL = "auth"
 LOGIN_REDIRECT_URL = "main"
 
-
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
@@ -159,9 +159,9 @@ REST_FRAMEWORK = {
     ]
 }
 
-
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static/'),
+    os.path.join(BASE_DIR, 'static/'),
 ]
+

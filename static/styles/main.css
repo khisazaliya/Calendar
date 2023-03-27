@@ -49,3 +49,7 @@ a {
     border-color: #483D8B;
     pointer-events: none;
 }
+
+.form-group{
+    width: 50%
+}

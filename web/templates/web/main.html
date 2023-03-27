@@ -1,13 +1,6 @@
 {% extends 'web/base.html' %}
 {% block content %}
  <div class="container contact-form">
-
-    <b>Добавить задачу</b>
-    <form action="{% url 'tasks_add' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button>Сохранить</button>
-    </form>
   <hr>
     <form action="">
         <b>Фильтры:</b><br>

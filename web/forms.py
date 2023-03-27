@@ -35,6 +35,11 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ('title', 'description', "image", "tags")
 
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
 
 class TaskTagForm(forms.ModelForm):
 
@@ -45,6 +50,10 @@ class TaskTagForm(forms.ModelForm):
     class Meta:
         model = TaskTag
         fields = ('title', )
+
+    def __init__(self, *args, **kwargs):
+        super(TaskTagForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'class': 'form-control'})
 
 
 class TaskFilterForm(forms.Form):
