@@ -6,10 +6,6 @@
         {{ form.as_p }}
         <button>Сохранить</button>
     </form>
-    {% if not user.is_anonymous %}
-    <p>Вы авторизованы как <b>{{ user.username }}</b></p>
-    {% endif %}
-
     <a href="{% url 'tasks_add' %}">Создать задачу</a>
   <hr>
     <form action="">
