@@ -23,12 +23,4 @@ class Command(BaseCommand):
                     user = user
                 ))
 
-        # saved_tasks = Task.objects.bulk_create(tasks)
-        # task_tags = []
-        # for time_slot in saved_tasks:
-        #     count_of_tags = randint(0, len(tags))
-        #     for tag_index in range(count_of_tags):
-        #         task_tags.append(
-        #             Task.tags.through(timeslot_id = time_slot.id, timeslottag_id = tags[tag_index].id)
-        #         )
         Task.objects.bulk_create(tasks)
