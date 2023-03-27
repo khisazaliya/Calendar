@@ -1,12 +1,13 @@
 {% extends 'web/base.html' %}
 {% block content %}
+ <div class="container contact-form">
+
     <b>Добавить задачу</b>
     <form action="{% url 'tasks_add' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button>Сохранить</button>
     </form>
-    <a href="{% url 'tasks_add' %}">Создать задачу</a>
   <hr>
     <form action="">
         <b>Фильтры:</b><br>
@@ -55,6 +56,6 @@
             <a href="?page={{ tasks.paginator.num_pages }}">в конец</a>
         {% endif %}
     </nav>
-
+</div>
 
 {% endblock %}
