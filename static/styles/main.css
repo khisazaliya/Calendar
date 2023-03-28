@@ -53,3 +53,67 @@ a {
 .form-group{
     width: 50%
 }
+
+
+.btn-search{
+    height: 100%;
+    width: 20%;
+    white-space: nowrap;
+    font-size: 20px;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    background: #483D8B;
+    transition: all .2s ease-out, color .2s ease-out;
+    font-weight: 300;
+    padding: 8px;
+}
+
+.btn-export{
+    height: 100%;
+    width: 20%;
+    white-space: nowrap;
+    font-size: 20px;
+    color: black;
+    border: 0;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    background: #E6E6FA;
+    transition: all .2s ease-out, color .2s ease-out;
+    font-weight: 300;
+    padding: 8px;
+}
+
+.search-input{
+    height: 80%;
+    background: #fff;
+    border: 0;
+    display: block;
+    width: 100%;
+    padding: 12px 32px;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #e5e5e5;
+}
+
+.input-field.first-wrap{
+    flex-grow: 1;
+}
+
+.inner-form{
+    display: flex;
+    width: 100%;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+
+    margin-top: 5%;
+}
+
+.search-form{
+    width: 100%;
+    max-width: 940px;
+}

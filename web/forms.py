@@ -49,7 +49,7 @@ class TaskTagForm(forms.ModelForm):
 
     class Meta:
         model = TaskTag
-        fields = ('title', )
+        fields = ('title',)
 
     def __init__(self, *args, **kwargs):
         super(TaskTagForm, self).__init__(*args, **kwargs)
@@ -57,7 +57,8 @@ class TaskTagForm(forms.ModelForm):
 
 
 class TaskFilterForm(forms.Form):
-    search = forms.CharField(label='', widget=forms.TextInput(attrs={"placeholder": "Поиск"}), required=False)
+    search = forms.CharField(label = '', widget = forms.TextInput(
+        attrs = {"placeholder": "Поиск", "class": "search-input"}), required = False)
     description = forms.TextInput()
 
 

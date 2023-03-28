@@ -1,31 +1,31 @@
 {% extends 'web/base.html' %}
 {% block content %}
- <div class="container contact-form">
-  <hr>
-    <form action="">
-        <b>Фильтры:</b><br>
-
-        {% for field in filter_form %}
-            {{ field.label }}
-            {{ field }}
-        {% endfor %}
-
-        <button>Найти</button>
-        <button name="export" value="csv">Экспорт</button>
-
-        <a href="?">Показать всё</a>
+{% load static %}
+<link href="{% static 'styles/main.css' %}" rel="stylesheet" type="text/css">
+<div class="container contact-form">
+    <form class="search-form" action="">
+        <div class="input-field first-wrap">
+            <div class="inner-form">
+                {% for field in filter_form %}
+                {{ field.label }}
+                {{ field }}
+                {% endfor %}
+                <button class="btn-search">Найти</button>
+                <button  class="btn-export" name="export" value="csv">Экспорт</button>
+            </div>
+        </div>
     </form>
     <ul>
         {% for task in tasks %}
         <li>
-              <small>
-             {% if task.tags.all %}
-                        [{{ task.tags_count }}: {% for tag in task.tags.all %} {{ tag.title }} {% endfor %}]
-                    {% endif %}
+            <small>
+                {% if task.tags.all %}
+                [{{ task.tags_count }}: {% for tag in task.tags.all %} {{ tag.title }} {% endfor %}]
+                {% endif %}
 
-                   {{ task.user.username }}
+                {{ task.user.username }}
 
-              </small>
+            </small>
             <b>{{ task.title }} </b>
             {{ task.description }}
             <a href="{% url 'tasks_edit' task.id %}">Изменить</a>
@@ -35,18 +35,18 @@
         {% endfor %}
     </ul>
 
-Всего {{ total_count }} записей {{ tasks|length }} на этой странице.
- <nav>
+    Всего {{ total_count }} записей {{ tasks|length }} на этой странице.
+    <nav>
         {% if tasks.has_previous %}
-            <a href="?page=1">в начало</a>
-            <a href="?page={{ tasks.previous_page_number }}">предыдующая страница</a>
+        <a href="?page=1">в начало</a>
+        <a href="?page={{ tasks.previous_page_number }}">предыдующая страница</a>
         {% endif %}
 
         страница {{ tasks.number }} из {{ tasks.paginator.num_pages }}
 
         {% if tasks.has_next %}
-            <a href="?page={{ tasks.next_page_number }}">следующая страница</a>
-            <a href="?page={{ tasks.paginator.num_pages }}">в конец</a>
+        <a href="?page={{ tasks.next_page_number }}">следующая страница</a>
+        <a href="?page={{ tasks.paginator.num_pages }}">в конец</a>
         {% endif %}
     </nav>
 </div>
