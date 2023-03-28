@@ -2,6 +2,7 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+<div class="container">
     <h2>Статистика</h2>
     <ul>
         {% for url, count in results %}
@@ -10,4 +11,5 @@
             </li>
         {% endfor %}
     </ul>
+</div>
 {% endblock %}

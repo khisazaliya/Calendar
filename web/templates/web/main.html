@@ -3,7 +3,7 @@
 {% load static %}
 <link href="{% static 'styles/main.css' %}" rel="stylesheet" type="text/css">
 <div class="container contact-form">
-    <form class="search-form" action="">
+    <form action="" class="search-form">
         <div class="input-field first-wrap">
             <div class="inner-form">
                 {% for field in filter_form %}
@@ -11,13 +11,13 @@
                 {{ field }}
                 {% endfor %}
                 <button class="btn-search">Найти</button>
-                <button  class="btn-export" name="export" value="csv">Экспорт</button>
+                <button class="btn-export" name="export" value="csv">Экспорт</button>
             </div>
         </div>
     </form>
-    <ul>
+    <ul class="list-group">
         {% for task in tasks %}
-        <li>
+        <li class="list-group-item">
             <small>
                 {% if task.tags.all %}
                 [{{ task.tags_count }}: {% for tag in task.tags.all %} {{ tag.title }} {% endfor %}]
@@ -28,27 +28,40 @@
             </small>
             <b>{{ task.title }} </b>
             {{ task.description }}
-            <a href="{% url 'tasks_edit' task.id %}">Изменить</a>
-            <a href="{% url 'tasks_delete' task.id %}">Удалить</a>
+            <a href="{% url 'tasks_edit' task.id %}"> &nbsp; &nbsp; Изменить</a>
+            <a href="{% url 'tasks_delete' task.id %}">&nbsp; Удалить</a>
         </li>
 
         {% endfor %}
     </ul>
-
-    Всего {{ total_count }} записей {{ tasks|length }} на этой странице.
     <nav>
-        {% if tasks.has_previous %}
-        <a href="?page=1">в начало</a>
-        <a href="?page={{ tasks.previous_page_number }}">предыдующая страница</a>
-        {% endif %}
+        <ul class="pagination">
+            {% if tasks.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">в начало</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ tasks.previous_page_number }}">предыдующая страница</a>
+            </li>
+            {% endif %}
 
-        страница {{ tasks.number }} из {{ tasks.paginator.num_pages }}
+           <span class="sr-only">
+                <li class="page-item active">
+               <a class="page-link" href="#">  страница {{ tasks.number }} из {{ tasks.paginator.num_pages }} </a>
+                </li>
+           </span>
 
-        {% if tasks.has_next %}
-        <a href="?page={{ tasks.next_page_number }}">следующая страница</a>
-        <a href="?page={{ tasks.paginator.num_pages }}">в конец</a>
-        {% endif %}
+            {% if tasks.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ tasks.next_page_number }}">следующая страница</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ tasks.paginator.num_pages }}">в конец</a>
+            </li>
+            {% endif %}
+        </ul>
     </nav>
+    Всего {{ total_count }} записей
 </div>
 
 {% endblock %}

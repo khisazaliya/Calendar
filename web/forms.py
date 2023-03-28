@@ -64,3 +64,5 @@ class TaskFilterForm(forms.Form):
 
 class ImportForm(forms.Form):
     file = forms.FileField()
+
+
