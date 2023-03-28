@@ -20,6 +20,9 @@ class RegistrationForm(forms.ModelForm):
         fields = ("email", "username", "password", "password2")
 
 
+
+
+
 class AuthForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget = forms.PasswordInput())

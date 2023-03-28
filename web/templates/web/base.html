@@ -17,8 +17,8 @@
                 {% if user.is_anonymous %}
 
                 <div class="col-md-3 text-end">
-                    <a  class="btn btn-primary" role="button" data-bs-toggle="button"href="{% url 'registration' %}">Регистрация</a>
-                    <a class="btn btn-outline-primary" href="{% url 'auth' %}">Авторизация</a>
+                    <a  class="btn btn-primary" role="button" data-bs-toggle="button" href="{% url 'registration' %}">Регистрация</a>
+                    <a class="btn btn-outline-primary" role="button" data-bs-toggle="button" href="{% url 'auth' %}">Авторизация</a>
                 </div>
                 {% else %}
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">

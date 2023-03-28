@@ -23,31 +23,28 @@ a {
     color: black;
     border-color: #483D8B;
 }
+
 .btn.btn-outline-primary{
     color: #483D8B;
     border-color: #483D8B;
-    pointer-events: none;
 }
 
 .btn.btn-outline-primary:hover{
     background-color: #E6E6FA;
     color: black;
     border-color: #483D8B;
-    pointer-events: none;
 }
 
 .btn.btn-outline-primary:active{
     background-color: #E6E6FA;
     color: black;
     border-color: #483D8B;
-    pointer-events: none;
 }
 
 .btn.btn-outline-primary:focus{
     background-color: #E6E6FA;
     color: black;
     border-color: #483D8B;
-    pointer-events: none;
 }
 
 .form-group{
