@@ -18,17 +18,29 @@
     <ul class="list-group">
         {% for task in tasks %}
         <li class="list-group-item">
-            <small>
                 {% if task.tags.all %}
+                <h5>Теги:</h5>
                 [{{ task.tags_count }}: {% for tag in task.tags.all %} {{ tag.title }} {% endfor %}]
                 {% endif %}
-
+            <br>
+            <br>
+                <h5>Автор:</h5>
                 {{ task.user.username }}
-
-            </small>
+            <br>
+            <br>
+            <h5>Название:</h5>
             <b>{{ task.title }} </b>
+            <br>
+            <br>
+            <h5>Описание:</h5>
             {{ task.description }}
-            <a href="{% url 'tasks_edit' task.id %}"> &nbsp; &nbsp; Изменить</a>
+            <br>
+            <br>
+            <div>
+            <img id="user-img" src="./media/{{ task.image }}">
+            </div>
+            <br>
+            <a href="{% url 'tasks_edit' task.id %}">  Изменить</a>
             <a href="{% url 'tasks_delete' task.id %}">&nbsp; Удалить</a>
         </li>
 

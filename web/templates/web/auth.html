@@ -2,12 +2,29 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+<script type="text/javascript" src="../media/scripts.js" ></script>
 <div class="container">
+    <div class="div1">
+    <div class="row">
+        <div class="col-sm main-text">
+            <div class="title"> Приложение органайзер </div>
+            <div class="description">Контролируй свои дела и задачи. Не упускай ничего важного. Заметки, теги и задачи. Все в одном месте.</div>
+        <a id="start-btn" class="btn btn-primary" role="button" data-bs-toggle="button" href="#auth">Начать пользоваться</a>
+        </div>
+         <div class="col-sm main-img">
+             <img src="../media/images/main-image.jpg">
+        </div>
+    </div>
+        </div>
+    <div class="div2">
+    <div id="auth" class="login-screen">
     <h2>Авторизация</h2>
-    <form action="" method="post">
+    <form class="form-group" action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button>Войти</button>
+        <button class="btn btn-primary">Войти</button>
     </form>
-</div>
+        </div>
+        </div>
+    </div>
 {% endblock %}

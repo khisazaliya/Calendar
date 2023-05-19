@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import path
 
 from web.views import main_view, registration_view, auth_view, logout_view, task_edit_view, tags_view, tags_delete_view, \
@@ -15,5 +16,5 @@ urlpatterns = [
     path("tasks/<int:id>", task_edit_view, name = "tasks_edit"),
     path("tasks/<int:id>/delete/", tasks_delete_view, name = "tasks_delete"),
     path("tags", tags_view, name = "tags"),
-    path("tags/<int:id>/delete/", tags_delete_view, name = "tags_delete"),
+    path("tags/<int:id>/delete/", tags_delete_view, name = "tags_delete")
 ]

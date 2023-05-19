@@ -19,13 +19,22 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ("email", "username", "password", "password2")
 
-
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['password'].widget.attrs.update({'type': 'Password'})
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
 
 
 
 class AuthForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget = forms.PasswordInput())
+
+    def __init__(self, *args, **kwargs):
+        super(AuthForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
 
 
 class TaskForm(forms.ModelForm):
@@ -67,5 +76,3 @@ class TaskFilterForm(forms.Form):
 
 class ImportForm(forms.Form):
     file = forms.FileField()
-
-
